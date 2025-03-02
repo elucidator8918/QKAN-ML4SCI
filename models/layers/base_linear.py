@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import math
-from .utils.spline_utils import (
+from models.utils.spline import (
     create_grid,
     compute_b_splines,
     curve_to_coeff,
@@ -53,10 +53,7 @@ class BaseLinear(nn.Module):
         self.scale_base = scale_base
         self.scale_spline = scale_spline
         self.base_activation = base_activation()
-        self.grid_eps = grid_eps
-        
-        # Initialize parameters
-        self._initialize_parameters()
+        self.grid_eps = grid_eps        
     
     def _initialize_parameters(self):
         """Initialize the layer parameters. To be implemented by subclasses."""

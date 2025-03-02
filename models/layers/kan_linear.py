@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import math
-from base_linear import BaseLinear
+from models.layers.base_linear import BaseLinear
 
 class KANLinear(BaseLinear):
     """
@@ -40,7 +40,8 @@ class KANLinear(BaseLinear):
         
         # Create base weight parameter for linear transformation
         self.base_weight = nn.Parameter(torch.Tensor(out_features, in_features))
-    
+        self._initialize_parameters()
+        
     def _initialize_parameters(self):
         """Initialize the layer parameters."""
         nn.init.kaiming_uniform_(self.base_weight, a=math.sqrt(5) * self.scale_base)

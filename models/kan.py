@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from kan_linear import KANLinear
+from models.layers.kan_linear import KANLinear
 
 class KAN(nn.Module):
     """

@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
-from kan_linear import KANLinear
-from qkan_linear import QKANLinear
+from models.layers.kan_linear import KANLinear
+from models.layers.qkan_linear import QKANLinear
 
 class QKAN(nn.Module):
     """
@@ -56,6 +56,18 @@ class QKAN(nn.Module):
                     grid_range=grid_range,
                 )
             )
+        self.layers.append(QKANLinear(
+            out_features,
+            out_features,
+            grid_size=grid_size,
+            spline_order=spline_order,
+            scale_noise=scale_noise,
+            scale_base=scale_base,
+            scale_spline=scale_spline,
+            base_activation=base_activation,
+            grid_eps=grid_eps,
+            grid_range=grid_range,
+        ))
 
     def forward(self, x, update_grid=False):
         """

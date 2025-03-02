@@ -1,1 +1,3 @@
-hls4ml-lhc-jet-dataset
+hls4ml-lhc-jet-dataset*
+__pycache__
+wandb

@@ -3,7 +3,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import math
 import pennylane as qml
-from base_linear import BaseLinear
+from models.layers.base_linear import BaseLinear
 
 class QKANLinear(BaseLinear):
     """
@@ -33,21 +33,11 @@ class QKANLinear(BaseLinear):
         weight_shapes = {"weights": (self.n_layers, self.n_qubits)}
         
         # Create quantum circuit
-        @qml.qnode(self.dev, interface="torch")
+        @qml.qnode(dev)
         def quantum_circuit(inputs, weights):
-            # Encode inputs into quantum states
-            for i in range(self.n_qubits):
-                qml.RY(inputs[i], wires=i)
-            
-            # Apply parameterized quantum gates
-            for layer in range(self.n_layers):
-                for i in range(self.n_qubits):
-                    qml.RZ(weights[layer, i], wires=i)
-                for i in range(self.n_qubits - 1):
-                    qml.CNOT(wires=[i, i + 1])
-            
-            # Measure outputs
-            return [qml.expval(qml.PauliZ(i)) for i in range(out_features)]
+            qml.AngleEmbedding(inputs, wires=range(self.n_qubits))
+            qml.StronglyEntanglingLayers(weights, wires=range(self.n_qubits))
+            return [qml.expval(qml.PauliZ(wires=i)) for i in range(out_features)]
         
         # Create quantum layer
         self.q_layer = qml.qnn.TorchLayer(quantum_circuit, weight_shapes)
@@ -66,6 +56,8 @@ class QKANLinear(BaseLinear):
             grid_eps,
             grid_range,
         )
+        
+        self._initialize_parameters()
     
     def _initialize_parameters(self):
         """Initialize the layer parameters."""
