@@ -35,7 +35,7 @@ class QKAN(nn.Module):
             grid_eps (float): Epsilon for grid adaptation.
             grid_range (list): Range of the grid.
         """
-        super(KAN, self).__init__()
+        super(QKAN, self).__init__()
         self.grid_size = grid_size
         self.spline_order = spline_order
 

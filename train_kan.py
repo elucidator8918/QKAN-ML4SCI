@@ -7,9 +7,9 @@ from data.hls4ml import get_dataloaders
 from models.utils.train import train
 
 torch.manual_seed(42)
-# Create a KAN model: 53D inputs, 5D output, with 32 and 16 hidden neurons.
+# Create a KAN model: 53D inputs, 5D output, with 32, 16, 5 hidden neurons.
 # Uses cubic spline (k=13) and 7 grid intervals.
-kan_model = KAN(layers_hidden=[53, 32, 16, 5], grid_size=7, spline_order=13)
+kan_model = KAN(layers_hidden=[53, 32, 16, 5, 5], grid_size=7, spline_order=13)
 wandb.init(project="kan_model_training", name="classical_experiment")
 
 # Define optimizer and loss function

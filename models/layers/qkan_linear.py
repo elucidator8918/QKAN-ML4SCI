@@ -33,14 +33,11 @@ class QKANLinear(BaseLinear):
         weight_shapes = {"weights": (self.n_layers, self.n_qubits)}
         
         # Create quantum circuit
-        @qml.qnode(dev)
+        @qml.qnode(self.dev, interface="torch")
         def quantum_circuit(inputs, weights):
             qml.AngleEmbedding(inputs, wires=range(self.n_qubits))
-            qml.StronglyEntanglingLayers(weights, wires=range(self.n_qubits))
+            qml.BasicEntanglerLayers(weights, wires=range(self.n_qubits))
             return [qml.expval(qml.PauliZ(wires=i)) for i in range(out_features)]
-        
-        # Create quantum layer
-        self.q_layer = qml.qnn.TorchLayer(quantum_circuit, weight_shapes)
         
         # Call parent constructor
         super(QKANLinear, self).__init__(
@@ -56,14 +53,14 @@ class QKANLinear(BaseLinear):
             grid_eps,
             grid_range,
         )
-        
+        self.q_layer = qml.qnn.TorchLayer(quantum_circuit, weight_shapes)
         self._initialize_parameters()
     
     def _initialize_parameters(self):
         """Initialize the layer parameters."""
         # Initialize quantum circuit weights
         nn.init.kaiming_uniform_(
-            self.q_layer.quantum_circuit.weight, 
+            self.q_layer.weights, 
             a=math.sqrt(5) * self.scale_base
         )
         
