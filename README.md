@@ -16,7 +16,7 @@ This dataset consists of high-pT jets from simulations of LHC proton-proton coll
 
 ## Results
 ### Experiment Comparisons
-We conducted two experiments—one using a classical approach and another leveraging quantum machine learning. The results are summarized below:
+I conducted two experiments—one using a classical approach and another leveraging quantum machine learning. The results are summarized below:
 
 #### **Classical Experiment**
 - **Training Accuracy**: 83.37%
