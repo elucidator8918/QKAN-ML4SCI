@@ -17,4 +17,4 @@ This dataset consists of high-pT jets from simulations of LHC proton-proton coll
 - **Jet images**: Up to 30 particles per jet, as described in [arXiv:1908.05318](https://arxiv.org/abs/1908.05318).
 - **Feature list**: List of jet features with up to 30 particles per jet, see [arXiv:1908.05318](https://arxiv.org/abs/1908.05318).
 
-[🔗 View Report on Weights & Biases](https://wandb.ai/sololicht/kan_model_training/reports/Quantum-Kolmogorov-Arnold-Networks-for-High-Energy-Physics-Analysis-at-the-LHC--VmlldzoxMTU5NTE3Nw)
+[🔗 View Report on Weights & Biases](https://api.wandb.ai/links/sololicht/tszejbc4)
