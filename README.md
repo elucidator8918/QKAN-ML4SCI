@@ -1,8 +1,7 @@
 # Quantum Kolmogorov-Arnold Networks for High Energy Physics Analysis at the LHC
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/b99dd20c-624e-4be4-973f-f0652f10677e" width="55%" />
-  <img src="https://github.com/user-attachments/assets/a1def6b6-d717-47a9-a95f-edb010b8b966" width="40%" />
+  <img src="https://github.com/user-attachments/assets/a1def6b6-d717-47a9-a95f-edb010b8b966" />
 </p>
 
 ## Description
