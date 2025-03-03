@@ -249,7 +249,7 @@ class JetDataset(Dataset):
     def get(self, idx: int) -> Data:
         """Get a specific graph by index."""
         file_prefix = 'data_test_' if self.test else 'data_'
-        data = torch.load(os.path.join(self.processed_dir, f'{file_prefix}{idx}.pt'))
+        data = torch.load(os.path.join(self.processed_dir, f'{file_prefix}{idx}.pt'), weights_only=False)
         
         if self.transform is not None:
             data = self.transform(data)

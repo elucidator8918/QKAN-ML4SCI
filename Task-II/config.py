@@ -11,7 +11,7 @@ class DataConfig:
     """Configuration for dataset and data loading."""
     
     # Data paths
-    data_root: str = "data"
+    data_root: str = "jets"
     train_file: str = "QG_jets.npz"
     test_file: Optional[str] = None
     

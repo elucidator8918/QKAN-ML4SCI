@@ -8,7 +8,7 @@ from pytorch_lightning.callbacks import ModelCheckpoint, EarlyStopping
 
 # Import local modules
 from config import ExperimentConfig, default_configs
-from data.dataset import JetDataset
+from utils.dataset import JetDataset
 from models.classifier import JetClassifier
 from utils.training import create_data_loaders, setup_trainer, train_model, evaluate_model
 

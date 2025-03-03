@@ -2,3 +2,8 @@ hls4ml-lhc-jet-dataset*
 MNIST
 __pycache__
 wandb
+processed
+*.npz
+Task-II/data
+checkpoints
+logs
