@@ -35,7 +35,7 @@ def train_kan(task: str):
 
         # Model configuration for MNIST
         kan_model = KAN(layers_hidden=[28*28, 64, 10, 10], grid_size=7, spline_order=13)
-        trainloader, valloader = get_dataloaders(dataset_path="./MNIST", batch_size=64)
+        trainloader, valloader = get_dataloaders(dataset_path="./MNIST", batch_size=256)
         train_func = train_mnist
 
     # Define optimizer and loss function
@@ -45,4 +45,4 @@ def train_kan(task: str):
     # Train the model
     train_func(kan_model, trainloader, valloader, criterion, optimizer, num_epochs=10)
 
-train_kan(task="HEP")  # Change to "MNIST" if needed
+train_kan(task="MNIST")  # Change to "HEP" if needed

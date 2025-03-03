@@ -35,7 +35,7 @@ def train_qkan(task: str):
 
         # Model configuration for MNIST
         qkan_model = QKAN(layers_hidden=[28*28, 64, 10], grid_size=7, spline_order=13)
-        trainloader, valloader = get_dataloaders(dataset_path="./MNIST", batch_size=64)
+        trainloader, valloader = get_dataloaders(dataset_path="./MNIST", batch_size=256)
         train_func = train_mnist
 
     # Define optimizer and loss function
@@ -45,4 +45,4 @@ def train_qkan(task: str):
     # Train the model
     train_func(qkan_model, trainloader, valloader, criterion, optimizer, num_epochs=10)
 
-train_qkan(task="HEP")  # Change to "MNIST" if needed
+train_qkan(task="MNIST")  # Change to "HEP" if needed

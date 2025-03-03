@@ -4,7 +4,7 @@ import torch.optim as optim
 import wandb
 from tqdm import tqdm
 
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")    
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 def train_hep(kan_model, trainloader, valloader, criterion, optimizer, num_epochs=10):
     kan_model.to(device)
@@ -25,19 +25,18 @@ def train_hep(kan_model, trainloader, valloader, criterion, optimizer, num_epoch
                 loss.backward()
                 optimizer.step()
                 
-                accuracy = (output.argmax(dim=1) == labels.argmax(dim=1)).float().mean()
+                accuracy = (output.argmax(dim=1) == labels.argmax(dim=1)).float().mean().item()
                 
                 running_loss += loss.item()
-                running_accuracy += accuracy.item()
+                running_accuracy += accuracy
                 
                 pbar.set_postfix(
-                    loss=loss.item(), accuracy=accuracy.item(), lr=optimizer.param_groups[0]["lr"]
+                    loss=loss.item(), accuracy=accuracy, lr=optimizer.param_groups[0]["lr"]
                 )
                 
                 # Log training metrics to wandb
-                wandb.log({"train_loss": loss.item(), "train_accuracy": accuracy.item()})
+                wandb.log({"train_loss": loss.item(), "train_accuracy": accuracy})
         
-        # Compute average training loss and accuracy
         avg_train_loss = running_loss / len(trainloader)
         avg_train_accuracy = running_accuracy / len(trainloader)
         
@@ -55,7 +54,6 @@ def train_hep(kan_model, trainloader, valloader, criterion, optimizer, num_epoch
         val_loss /= len(valloader)
         val_accuracy /= len(valloader)
         
-        # Log validation metrics to wandb
         wandb.log(
             {
                 "val_loss": val_loss,
@@ -64,9 +62,10 @@ def train_hep(kan_model, trainloader, valloader, criterion, optimizer, num_epoch
             }
         )
         
-        print(f"Epoch {epoch + 1}, Val Loss: {val_loss}, Val Accuracy: {val_accuracy}")
+        print(f"HEP - Epoch {epoch + 1}, Val Loss: {val_loss:.4f}, Val Accuracy: {val_accuracy:.4f}")
     
     wandb.finish()
+
 
 def train_mnist(kan_model, trainloader, valloader, criterion, optimizer, num_epochs=10):
     kan_model.to(device)
@@ -79,7 +78,7 @@ def train_mnist(kan_model, trainloader, valloader, criterion, optimizer, num_epo
         
         with tqdm(trainloader, desc=f"Epoch {epoch+1}") as pbar:
             for images, labels in pbar:
-                images, labels = images.view(-1, 28 * 28).to(device), labels.to(device)
+                images, labels = images.view(images.size(0), -1).to(device), labels.to(device)
                 
                 optimizer.zero_grad()
                 output = kan_model(images)
@@ -87,19 +86,17 @@ def train_mnist(kan_model, trainloader, valloader, criterion, optimizer, num_epo
                 loss.backward()
                 optimizer.step()
                 
-                accuracy = (output.argmax(dim=1) == labels.to(device)).float().mean()
-                
+                accuracy = (output.argmax(dim=1) == labels).float().mean().item()
                 running_loss += loss.item()
-                running_accuracy += accuracy.item()
+                running_accuracy += accuracy
                 
                 pbar.set_postfix(
-                    loss=loss.item(), accuracy=accuracy.item(), lr=optimizer.param_groups[0]["lr"]
+                    loss=loss.item(), accuracy=accuracy, lr=optimizer.param_groups[0]["lr"]
                 )
                 
                 # Log training metrics to wandb
-                wandb.log({"train_loss": loss.item(), "train_accuracy": accuracy.item()})
+                wandb.log({"train_loss": loss.item(), "train_accuracy": accuracy})
         
-        # Compute average training loss and accuracy
         avg_train_loss = running_loss / len(trainloader)
         avg_train_accuracy = running_accuracy / len(trainloader)
         
@@ -109,15 +106,14 @@ def train_mnist(kan_model, trainloader, valloader, criterion, optimizer, num_epo
         val_accuracy = 0
         with torch.no_grad():
             for images, labels in valloader:
-                images, labels = images.view(-1, 28 * 28).to(device), labels.to(device)
+                images, labels = images.view(images.size(0), -1).to(device), labels.to(device)
                 output = kan_model(images)
                 val_loss += criterion(output, labels).item()
-                val_accuracy = (output.argmax(dim=1) == labels.to(device)).float().mean()
+                val_accuracy += (output.argmax(dim=1) == labels).float().mean().item()
         
         val_loss /= len(valloader)
         val_accuracy /= len(valloader)
         
-        # Log validation metrics to wandb
         wandb.log(
             {
                 "val_loss": val_loss,
@@ -126,6 +122,6 @@ def train_mnist(kan_model, trainloader, valloader, criterion, optimizer, num_epo
             }
         )
         
-        print(f"Epoch {epoch + 1}, Val Loss: {val_loss}, Val Accuracy: {val_accuracy}")
+        print(f"MNIST - Epoch {epoch + 1}, Val Loss: {val_loss:.4f}, Val Accuracy: {val_accuracy:.4f}")
     
     wandb.finish()
