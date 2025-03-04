@@ -15,7 +15,6 @@ class GraphClassifier(nn.Module):
         "mean": global_mean_pool,
         "max": global_max_pool,
         "sum": global_add_pool,
-        "attention": None  # Will be initialized if needed
     }
     
     def __init__(
@@ -61,17 +60,9 @@ class GraphClassifier(nn.Module):
         )
         
         # Set up pooling method
-        if pooling == "attention":
-            gate_nn = nn.Sequential(
-                nn.Linear(hidden_channels, hidden_channels), 
-                nn.ReLU(), 
-                nn.Linear(hidden_channels, 1)
-            )
-            self.pooling_fn = GlobalAttention(gate_nn)
-        else:
-            if pooling not in self.POOLING_METHODS:
-                raise ValueError(f"Unknown pooling method: {pooling}")
-            self.pooling_fn = self.POOLING_METHODS[pooling]
+        if pooling not in self.POOLING_METHODS:
+            raise ValueError(f"Unknown pooling method: {pooling}")
+        self.pooling_fn = self.POOLING_METHODS[pooling]
         
         # Build classification head (MLP)
         classifier_layers = []
@@ -109,12 +100,7 @@ class GraphClassifier(nn.Module):
         node_embeddings = self.gnn(x, edge_index)
         
         # Pool node embeddings to graph-level representation
-        if isinstance(self.pooling_fn, nn.Module):
-            # For attention pooling
-            graph_embedding = self.pooling_fn(node_embeddings, batch)
-        else:
-            # For standard pooling functions
-            graph_embedding = self.pooling_fn(node_embeddings, batch)
+        graph_embedding = self.pooling_fn(node_embeddings, batch)
         
         # Apply classification head
         return self.classifier(graph_embedding)
