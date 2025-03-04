@@ -5,7 +5,7 @@ import torch_geometric.data as geom_data
 import torch_geometric.loader as geom_loader
 import pytorch_lightning as pl
 from pytorch_lightning.callbacks import ModelCheckpoint, EarlyStopping, LearningRateMonitor
-from pytorch_lightning.loggers import TensorBoardLogger, CSVLogger
+from pytorch_lightning.loggers import WandbLogger, CSVLogger
 from typing import Dict, List, Tuple, Optional, Union, Callable
 import numpy as np
 from sklearn.model_selection import train_test_split
@@ -122,13 +122,13 @@ def setup_trainer(
     log_dir: str = "logs",
     max_epochs: int = 100,
     gpus: int = 1,
-    precision: int = 16,
+    precision: str = 'bf16-mixed',
     early_stopping_patience: int = 10,
     monitor_metric: str = "val_auc",
     monitor_mode: str = "max",
     save_top_k: int = 3,
     log_every_n_steps: int = 50,
-    deterministic: bool = True,
+    deterministic: bool = False,
     benchmark: bool = True,
     additional_callbacks: List = None
 ) -> Tuple[pl.Trainer, str]:
@@ -158,7 +158,7 @@ def setup_trainer(
     run_id = f"{experiment_name}-{timestamp}"
     
     # Set up logging
-    tensorboard_logger = TensorBoardLogger(log_dir, name=experiment_name, version=timestamp)
+    tensorboard_logger = WandbLogger(name=experiment_name)
     csv_logger = CSVLogger(log_dir, name=experiment_name, version=timestamp)
     
     # Define checkpoint directory
@@ -193,8 +193,8 @@ def setup_trainer(
     
     # Configure trainer
     accelerator = "gpu" if gpus > 0 else "cpu"
-    devices = gpus if gpus > 0 else None
-    
+    devices = gpus if gpus > 0 else 1  # Set devices to 1 for CPU
+
     trainer = pl.Trainer(
         max_epochs=max_epochs,
         accelerator=accelerator,
@@ -206,7 +206,7 @@ def setup_trainer(
         deterministic=deterministic,
         benchmark=benchmark
     )
-    
+
     return trainer, checkpoint_dir
 
 

@@ -268,8 +268,8 @@ class JetClassifier(pl.LightningModule):
     def _log_metrics(self, prefix, metrics_dict, batch_y, logits, loss=None):
         """Helper method to log metrics for a given phase."""
         if loss is not None:
-            self.log(f"{prefix}_loss", loss, prog_bar=(prefix == "val"), on_epoch=True)
-        
+            self.log(f"{prefix}_loss", loss, prog_bar=(prefix == "val"), on_epoch=True, batch_size=batch_y.size(0))
+
         # Compute predictions from logits based on task type
         if self.hparams.out_channels == 1:  # Binary classification
             preds = torch.sigmoid(logits)
@@ -283,7 +283,8 @@ class JetClassifier(pl.LightningModule):
                 f"{prefix}_{name}",
                 metric,
                 prog_bar=(prefix == "val" and name == "auc"),
-                on_epoch=True
+                on_epoch=True,
+                batch_size=batch_y.size(0)  # Specify correct batch size
             )
 
     def training_step(self, batch, batch_idx):

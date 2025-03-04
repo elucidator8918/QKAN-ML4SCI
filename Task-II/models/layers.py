@@ -3,7 +3,6 @@ import torch.nn as nn
 from torch_geometric.nn import GCNConv, GATConv, SAGEConv, GraphConv, TransformerConv
 from torch_geometric.typing import Adj
 
-
 class GNNLayer(nn.Module):
     """Base GNN layer that can be configured to use different graph convolution types."""
     
@@ -24,6 +23,7 @@ class GNNLayer(nn.Module):
         dropout: float = 0.1,
         batch_norm: bool = False,
         residual: bool = False,
+        layer_params: dict = None,
         **kwargs
     ):
         """
@@ -37,15 +37,22 @@ class GNNLayer(nn.Module):
             dropout: Dropout rate
             batch_norm: Whether to apply batch normalization
             residual: Whether to add a residual connection
+            layer_params: Parameters specific to the layer type
             **kwargs: Additional arguments for the specific layer type
         """
         super().__init__()
         
         if layer_type not in self.SUPPORTED_LAYERS:
             raise ValueError(f"Unknown layer type: {layer_type}. Supported types: {list(self.SUPPORTED_LAYERS.keys())}")
+        
+        # Handle layer-specific parameters
+        conv_kwargs = {}
+        if layer_params is not None:
+            conv_kwargs.update(layer_params)
+        conv_kwargs.update(kwargs)
             
         # Create the graph convolution layer
-        self.conv = self.SUPPORTED_LAYERS[layer_type](in_channels, out_channels, **kwargs)
+        self.conv = self.SUPPORTED_LAYERS[layer_type](in_channels, out_channels, **conv_kwargs)
         
         # Setup activation function
         if activation == "relu":

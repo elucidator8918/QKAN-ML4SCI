@@ -11,7 +11,7 @@ class DataConfig:
     """Configuration for dataset and data loading."""
     
     # Data paths
-    data_root: str = "jets"
+    data_root: str = "data"
     train_file: str = "QG_jets.npz"
     test_file: Optional[str] = None
     
@@ -21,7 +21,7 @@ class DataConfig:
     
     # DataLoader parameters
     batch_size: int = 256
-    num_workers: int = 8
+    num_workers: int = 2
     train_val_test_split: List[float] = field(default_factory=lambda: [0.6, 0.2, 0.2])
     
     def __post_init__(self):
