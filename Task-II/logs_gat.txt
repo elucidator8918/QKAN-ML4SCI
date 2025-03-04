@@ -1,0 +1,241 @@
+@elucidator8918 ➜ /workspaces/QKAN-ML4SCI/Task-II (main) $ python main.py --config gat_baseline
+Running experiment: gat_baseline
+Model: GAT
+Using CPU
+Dataset: 100000 samples
+Node features: 4 dimensions
+Dataset split: Train=60000, Val=20000, Test=20000
+Using bfloat16 Automatic Mixed Precision (AMP)
+GPU available: False, used: False
+TPU available: False, using: 0 TPU cores
+HPU available: False, using: 0 HPUs
+wandb: Using wandb-core as the SDK backend.  Please refer to https://wandb.me/wandb-core for more information.
+wandb: Currently logged in as: forsomethingnewsid (sololicht) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: Tracking run with wandb version 0.19.7
+wandb: Run data is saved locally in ./wandb/run-20250304_023255-6aqgl9hw
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run gat_baseline
+wandb: ⭐️ View project at https://wandb.ai/sololicht/lightning_logs
+wandb: 🚀 View run at https://wandb.ai/sololicht/lightning_logs/runs/6aqgl9hw
+/usr/local/python/3.12.1/lib/python3.12/site-packages/lightning_fabric/loggers/csv_logs.py:268: Experiment logs directory logs/gat_baseline/20250304-023253 exists and is not empty. Previous log files in this directory will be deleted when the new ones are saved!
+
+  | Name          | Type              | Params | Mode 
+------------------------------------------------------------
+0 | model         | GraphClassifier   | 53.0 K | train
+1 | loss_fn       | BCEWithLogitsLoss | 0      | train
+2 | train_metrics | ModuleDict        | 0      | train
+3 | val_metrics   | ModuleDict        | 0      | train
+4 | test_metrics  | ModuleDict        | 0      | train
+------------------------------------------------------------
+53.0 K    Trainable params
+0         Non-trainable params
+53.0 K    Total params
+0.212     Total estimated model params size (MB)
+54        Modules in train mode
+0         Modules in eval mode
+Sanity Checking DataLoader 0:   0%|                                                                                       | 0/2 [00:00<?, ?it/s]Traceback (most recent call last):
+  File "/workspaces/QKAN-ML4SCI/Task-II/main.py", line 214, in <module>
+    main()
+  File "/workspaces/QKAN-ML4SCI/Task-II/main.py", line 174, in main
+    model, metrics = train_model(
+                     ^^^^^^^^^^^^
+  File "/workspaces/QKAN-ML4SCI/Task-II/utils/training.py", line 293, in train_model
+    trainer.fit(model, train_loader, val_loader)
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/pytorch_lightning/trainer/trainer.py", line 539, in fit
+    call._call_and_handle_interrupt(
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/pytorch_lightning/trainer/call.py", line 47, in _call_and_handle_interrupt
+    return trainer_fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/pytorch_lightning/trainer/trainer.py", line 575, in _fit_impl
+    self._run(model, ckpt_path=ckpt_path)
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/pytorch_lightning/trainer/trainer.py", line 982, in _run
+    results = self._run_stage()
+              ^^^^^^^^^^^^^^^^^
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/pytorch_lightning/trainer/trainer.py", line 1024, in _run_stage
+    self._run_sanity_check()
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/pytorch_lightning/trainer/trainer.py", line 1053, in _run_sanity_check
+    val_loop.run()
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/pytorch_lightning/loops/utilities.py", line 179, in _decorator
+    return loop_run(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/pytorch_lightning/loops/evaluation_loop.py", line 144, in run
+    self._evaluation_step(batch, batch_idx, dataloader_idx, dataloader_iter)
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/pytorch_lightning/loops/evaluation_loop.py", line 433, in _evaluation_step
+    output = call._call_strategy_hook(trainer, hook_name, *step_args)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/pytorch_lightning/trainer/call.py", line 323, in _call_strategy_hook
+    output = fn(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/pytorch_lightning/strategies/strategy.py", line 412, in validation_step
+    return self.lightning_module.validation_step(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/QKAN-ML4SCI/Task-II/models/classifier.py", line 296, in validation_step
+    logits = self(batch)
+             ^^^^^^^^^^^
+  File "/home/codespace/.local/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/codespace/.local/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/QKAN-ML4SCI/Task-II/models/classifier.py", line 206, in forward
+    x = self.model(data.x, data.edge_index, data.batch)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/codespace/.local/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/codespace/.local/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/QKAN-ML4SCI/Task-II/models/classifier.py", line 100, in forward
+    node_embeddings = self.gnn(x, edge_index)
+                      ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/codespace/.local/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/codespace/.local/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/QKAN-ML4SCI/Task-II/models/gnn.py", line 128, in forward
+    x = layer(x, edge_index, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/codespace/.local/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/codespace/.local/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/QKAN-ML4SCI/Task-II/models/layers.py", line 103, in forward
+    x = self.batch_norm(x)
+        ^^^^^^^^^^^^^^^^^^
+  File "/home/codespace/.local/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/codespace/.local/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/codespace/.local/lib/python3.12/site-packages/torch/nn/modules/batchnorm.py", line 193, in forward
+    return F.batch_norm(
+           ^^^^^^^^^^^^^
+  File "/home/codespace/.local/lib/python3.12/site-packages/torch/nn/functional.py", line 2812, in batch_norm
+    return torch.batch_norm(
+           ^^^^^^^^^^^^^^^^^
+RuntimeError: running_mean should contain 256 elements not 64
+wandb: 
+wandb: 🚀 View run gat_baseline at: https://wandb.ai/sololicht/lightning_logs/runs/6aqgl9hw
+@elucidator8918 ➜ /workspaces/QKAN-ML4SCI/Task-II (main) $ python main.py --config gat_baseline
+Running experiment: gat_baseline
+Model: GAT
+Using CPU
+Dataset: 100000 samples
+Node features: 4 dimensions
+Dataset split: Train=60000, Val=20000, Test=20000
+Using bfloat16 Automatic Mixed Precision (AMP)
+GPU available: False, used: False
+TPU available: False, using: 0 TPU cores
+HPU available: False, using: 0 HPUs
+wandb: Using wandb-core as the SDK backend.  Please refer to https://wandb.me/wandb-core for more information.
+wandb: Currently logged in as: forsomethingnewsid (sololicht) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: Tracking run with wandb version 0.19.7
+wandb: Run data is saved locally in ./wandb/run-20250304_023546-mrxfrm1c
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run gat_baseline
+wandb: ⭐️ View project at https://wandb.ai/sololicht/lightning_logs
+wandb: 🚀 View run at https://wandb.ai/sololicht/lightning_logs/runs/mrxfrm1c
+/usr/local/python/3.12.1/lib/python3.12/site-packages/lightning_fabric/loggers/csv_logs.py:268: Experiment logs directory logs/gat_baseline/20250304-023545 exists and is not empty. Previous log files in this directory will be deleted when the new ones are saved!
+
+  | Name          | Type              | Params | Mode 
+------------------------------------------------------------
+0 | model         | GraphClassifier   | 25.9 K | train
+1 | loss_fn       | BCEWithLogitsLoss | 0      | train
+2 | train_metrics | ModuleDict        | 0      | train
+3 | val_metrics   | ModuleDict        | 0      | train
+4 | test_metrics  | ModuleDict        | 0      | train
+------------------------------------------------------------
+25.9 K    Trainable params
+0         Non-trainable params
+25.9 K    Total params
+0.104     Total estimated model params size (MB)
+54        Modules in train mode
+0         Modules in eval mode
+Epoch 0: 100%|█████████████████████████████████████████████████████| 235/235 [01:34<00:00,  2.49it/s, v_num=3545, val_loss=0.703, val_auc=0.857]Metric val_auc improved. New best score: 0.857                                                                                                  
+Epoch 0, global step 235: 'val_auc' reached 0.85693 (best 0.85693), saving model to '/workspaces/QKAN-ML4SCI/Task-II/logs/gat_baseline/20250304-023545/checkpoints/epoch=0-val_auc=0.8569.ckpt' as top 3
+Epoch 1: 100%|█████████████████████████████████████████████████████| 235/235 [01:34<00:00,  2.49it/s, v_num=3545, val_loss=0.502, val_auc=0.863]Metric val_auc improved by 0.006 >= min_delta = 0.0. New best score: 0.863                                                                      
+Epoch 1, global step 470: 'val_auc' reached 0.86323 (best 0.86323), saving model to '/workspaces/QKAN-ML4SCI/Task-II/logs/gat_baseline/20250304-023545/checkpoints/epoch=1-val_auc=0.8632.ckpt' as top 3
+Epoch 2: 100%|█████████████████████████████████████████████████████| 235/235 [01:32<00:00,  2.55it/s, v_num=3545, val_loss=0.491, val_auc=0.856]Epoch 2, global step 705: 'val_auc' reached 0.85554 (best 0.86323), saving model to '/workspaces/QKAN-ML4SCI/Task-II/logs/gat_baseline/20250304-023545/checkpoints/epoch=2-val_auc=0.8555.ckpt' as top 3
+Epoch 3: 100%|█████████████████████████████████████████████████████| 235/235 [01:32<00:00,  2.53it/s, v_num=3545, val_loss=0.485, val_auc=0.864]Metric val_auc improved by 0.001 >= min_delta = 0.0. New best score: 0.864                                                                      
+Epoch 3, global step 940: 'val_auc' reached 0.86409 (best 0.86409), saving model to '/workspaces/QKAN-ML4SCI/Task-II/logs/gat_baseline/20250304-023545/checkpoints/epoch=3-val_auc=0.8641.ckpt' as top 3
+Epoch 4: 100%|█████████████████████████████████████████████████████| 235/235 [01:31<00:00,  2.56it/s, v_num=3545, val_loss=0.590, val_auc=0.859]Epoch 4, global step 1175: 'val_auc' reached 0.85937 (best 0.86409), saving model to '/workspaces/QKAN-ML4SCI/Task-II/logs/gat_baseline/20250304-023545/checkpoints/epoch=4-val_auc=0.8594.ckpt' as top 3
+Epoch 5: 100%|█████████████████████████████████████████████████████| 235/235 [01:32<00:00,  2.55it/s, v_num=3545, val_loss=0.456, val_auc=0.869]Metric val_auc improved by 0.005 >= min_delta = 0.0. New best score: 0.869                                                                      
+Epoch 5, global step 1410: 'val_auc' reached 0.86897 (best 0.86897), saving model to '/workspaces/QKAN-ML4SCI/Task-II/logs/gat_baseline/20250304-023545/checkpoints/epoch=5-val_auc=0.8690.ckpt' as top 3
+Epoch 6: 100%|█████████████████████████████████████████████████████| 235/235 [01:31<00:00,  2.57it/s, v_num=3545, val_loss=0.482, val_auc=0.851]Epoch 6, global step 1645: 'val_auc' was not in top 3                                                                                           
+Epoch 7: 100%|█████████████████████████████████████████████████████| 235/235 [01:32<00:00,  2.53it/s, v_num=3545, val_loss=0.493, val_auc=0.865]Epoch 7, global step 1880: 'val_auc' reached 0.86450 (best 0.86897), saving model to '/workspaces/QKAN-ML4SCI/Task-II/logs/gat_baseline/20250304-023545/checkpoints/epoch=7-val_auc=0.8645.ckpt' as top 3
+Epoch 8: 100%|█████████████████████████████████████████████████████| 235/235 [01:33<00:00,  2.52it/s, v_num=3545, val_loss=0.489, val_auc=0.866]Epoch 8, global step 2115: 'val_auc' reached 0.86634 (best 0.86897), saving model to '/workspaces/QKAN-ML4SCI/Task-II/logs/gat_baseline/20250304-023545/checkpoints/epoch=8-val_auc=0.8663.ckpt' as top 3
+Epoch 9: 100%|█████████████████████████████████████████████████████| 235/235 [01:33<00:00,  2.52it/s, v_num=3545, val_loss=0.472, val_auc=0.864]Epoch 9, global step 2350: 'val_auc' was not in top 3                                                                                           
+Epoch 10: 100%|████████████████████████████████████████████████████| 235/235 [01:32<00:00,  2.54it/s, v_num=3545, val_loss=0.481, val_auc=0.870]Metric val_auc improved by 0.001 >= min_delta = 0.0. New best score: 0.870                                                                      
+Epoch 10, global step 2585: 'val_auc' reached 0.86970 (best 0.86970), saving model to '/workspaces/QKAN-ML4SCI/Task-II/logs/gat_baseline/20250304-023545/checkpoints/epoch=10-val_auc=0.8697.ckpt' as top 3
+Epoch 11: 100%|████████████████████████████████████████████████████| 235/235 [01:33<00:00,  2.52it/s, v_num=3545, val_loss=0.457, val_auc=0.870]Metric val_auc improved by 0.001 >= min_delta = 0.0. New best score: 0.870                                                                      
+Epoch 11, global step 2820: 'val_auc' reached 0.87039 (best 0.87039), saving model to '/workspaces/QKAN-ML4SCI/Task-II/logs/gat_baseline/20250304-023545/checkpoints/epoch=11-val_auc=0.8704.ckpt' as top 3
+Epoch 12: 100%|████████████████████████████████████████████████████| 235/235 [01:31<00:00,  2.56it/s, v_num=3545, val_loss=0.456, val_auc=0.869]Epoch 12, global step 3055: 'val_auc' reached 0.86926 (best 0.87039), saving model to '/workspaces/QKAN-ML4SCI/Task-II/logs/gat_baseline/20250304-023545/checkpoints/epoch=12-val_auc=0.8693.ckpt' as top 3
+Epoch 13: 100%|████████████████████████████████████████████████████| 235/235 [01:31<00:00,  2.56it/s, v_num=3545, val_loss=0.500, val_auc=0.868]Epoch 13, global step 3290: 'val_auc' was not in top 3                                                                                          
+Epoch 14: 100%|████████████████████████████████████████████████████| 235/235 [01:32<00:00,  2.53it/s, v_num=3545, val_loss=0.453, val_auc=0.872]Metric val_auc improved by 0.001 >= min_delta = 0.0. New best score: 0.872                                                                      
+Epoch 14, global step 3525: 'val_auc' reached 0.87159 (best 0.87159), saving model to '/workspaces/QKAN-ML4SCI/Task-II/logs/gat_baseline/20250304-023545/checkpoints/epoch=14-val_auc=0.8716.ckpt' as top 3
+Epoch 15: 100%|████████████████████████████████████████████████████| 235/235 [01:32<00:00,  2.54it/s, v_num=3545, val_loss=0.458, val_auc=0.868]Epoch 15, global step 3760: 'val_auc' was not in top 3                                                                                          
+Epoch 16:  91%|▉| 214/235 [01:12<00:07,                                                                              Epoch 16: 100%|████████████████████████████████████████████████████| 235/235 [01:33<00:00,  2.52it/s, v_num=3545, val_loss=0.454, val_auc=0.868]Epoch 16, global step 3995: 'val_auc' was not in top 3                                                                                          
+Epoch 17: 100%|████████████████████████████████████████████████████| 235/235 [01:32<00:00,  2.55it/s, v_num=3545, val_loss=0.454, val_auc=0.872]Metric val_auc improved by 0.000 >= min_delta = 0.0. New best score: 0.872                                                                      
+Epoch 17, global step 4230: 'val_auc' reached 0.87197 (best 0.87197), saving model to '/workspaces/QKAN-ML4SCI/Task-II/logs/gat_baseline/20250304-023545/checkpoints/epoch=17-val_auc=0.8720.ckpt' as top 3
+Epoch 18: 100%|████████████████████████████████████████████████████| 235/235 [01:32<00:00,  2.55it/s, v_num=3545, val_loss=0.452, val_auc=0.872]Epoch 18, global step 4465: 'val_auc' reached 0.87189 (best 0.87197), saving model to '/workspaces/QKAN-ML4SCI/Task-II/logs/gat_baseline/20250304-023545/checkpoints/epoch=18-val_auc=0.8719.ckpt' as top 3
+Epoch 19: 100%|████████████████████████████████████████████████████| 235/235 [01:32<00:00,  2.54it/s, v_num=3545, val_loss=0.487, val_auc=0.873]Metric val_auc improved by 0.001 >= min_delta = 0.0. New best score: 0.873                                                                      
+Epoch 19, global step 4700: 'val_auc' reached 0.87301 (best 0.87301), saving model to '/workspaces/QKAN-ML4SCI/Task-II/logs/gat_baseline/20250304-023545/checkpoints/epoch=19-val_auc=0.8730.ckpt' as top 3
+Epoch 20: 100%|████████████████████████████████████████████████████| 235/235 [01:32<00:00,  2.53it/s, v_num=3545, val_loss=0.457, val_auc=0.872]Epoch 20, global step 4935: 'val_auc' was not in top 3                                                                                          
+Epoch 21: 100%|████████████████████████████████████████████████████| 235/235 [01:33<00:00,  2.52it/s, v_num=3545, val_loss=0.460, val_auc=0.866]Epoch 21, global step 5170: 'val_auc' was not in top 3                                                                                          
+Epoch 22: 100%|████████████████████████████████████████████████████| 235/235 [01:32<00:00,  2.54it/s, v_num=3545, val_loss=0.450, val_auc=0.873]Metric val_auc improved by 0.000 >= min_delta = 0.0. New best score: 0.873                                                                      
+Epoch 22, global step 5405: 'val_auc' reached 0.87344 (best 0.87344), saving model to '/workspaces/QKAN-ML4SCI/Task-II/logs/gat_baseline/20250304-023545/checkpoints/epoch=22-val_auc=0.8734.ckpt' as top 3
+Epoch 23: 100%|████████████████████████████████████████████████████| 235/235 [01:32<00:00,  2.55it/s, v_num=3545, val_loss=0.448, val_auc=0.873]Epoch 23, global step 5640: 'val_auc' reached 0.87290 (best 0.87344), saving model to '/workspaces/QKAN-ML4SCI/Task-II/logs/gat_baseline/20250304-023545/checkpoints/epoch=23-val_auc=0.8729.ckpt' as top 3
+Epoch 24: 100%|████████████████████████████████████████████████████| 235/235 [01:31<00:00,  2.56it/s, v_num=3545, val_loss=0.451, val_auc=0.872]Epoch 24, global step 5875: 'val_auc' was not in top 3                                                                                          
+Epoch 25: 100%|████████████████████████████████████████████████████| 235/235 [01:31<00:00,  2.56it/s, v_num=3545, val_loss=0.452, val_auc=0.872]Epoch 25, global step 6110: 'val_auc' was not in top 3                                                                                          
+Epoch 26: 100%|████████████████████████████████████████████████████| 235/235 [01:31<00:00,  2.56it/s, v_num=3545, val_loss=0.462, val_auc=0.874]Metric val_auc improved by 0.000 >= min_delta = 0.0. New best score: 0.874                                                                      
+Epoch 26, global step 6345: 'val_auc' reached 0.87366 (best 0.87366), saving model to '/workspaces/QKAN-ML4SCI/Task-II/logs/gat_baseline/20250304-023545/checkpoints/epoch=26-val_auc=0.8737.ckpt' as top 3
+Epoch 27: 100%|████████████████████████████████████████████████████| 235/235 [01:32<00:00,  2.55it/s, v_num=3545, val_loss=0.450, val_auc=0.871]Epoch 27, global step 6580: 'val_auc' was not in top 3                                                                                          
+Epoch 28: 100%|████████████████████████████████████████████████████| 235/235 [01:32<00:00,  2.55it/s, v_num=3545, val_loss=0.503, val_auc=0.863]Epoch 28, global step 6815: 'val_auc' was not in top 3                                                                                          
+Epoch 29: 100%|████████████████████████████████████████████████████| 235/235 [01:32<00:00,  2.54it/s, v_num=3545, val_loss=0.474, val_auc=0.860]Epoch 29, global step 7050: 'val_auc' was not in top 3                                                                                          
+Epoch 30: 100%|████████████████████████████████████████████████████| 235/235 [01:32<00:00,  2.55it/s, v_num=3545, val_loss=0.447, val_auc=0.873]Epoch 30, global step 7285: 'val_auc' reached 0.87345 (best 0.87366), saving model to '/workspaces/QKAN-ML4SCI/Task-II/logs/gat_baseline/20250304-023545/checkpoints/epoch=30-val_auc=0.8734.ckpt' as top 3
+Epoch 31: 100%|████████████████████████████████████████████████████| 235/235 [01:31<00:00,  2.58it/s, v_num=3545, val_loss=0.461, val_auc=0.871]Epoch 31, global step 7520: 'val_auc' was not in top 3                                                                                          
+Epoch 32: 100%|████████████████████████████████████████████████████| 235/235 [01:32<00:00,  2.55it/s, v_num=3545, val_loss=0.458, val_auc=0.875]Metric val_auc improved by 0.002 >= min_delta = 0.0. New best score: 0.875                                                                      
+Epoch 32, global step 7755: 'val_auc' reached 0.87517 (best 0.87517), saving model to '/workspaces/QKAN-ML4SCI/Task-II/logs/gat_baseline/20250304-023545/checkpoints/epoch=32-val_auc=0.8752.ckpt' as top 3
+Epoch 33: 100%|████████████████████████████████████████████████████| 235/235 [01:32<00:00,  2.54it/s, v_num=3545, val_loss=0.449, val_auc=0.874]Epoch 33, global step 7990: 'val_auc' reached 0.87388 (best 0.87517), saving model to '/workspaces/QKAN-ML4SCI/Task-II/logs/gat_baseline/20250304-023545/checkpoints/epoch=33-val_auc=0.8739.ckpt' as top 3
+Epoch 34: 100%|████████████████████████████████████████████████████| 235/235 [01:32<00:00,  2.55it/s, v_num=3545, val_loss=0.454, val_auc=0.875]Metric val_auc improved by 0.000 >= min_delta = 0.0. New best score: 0.875                                                                      
+Epoch 34, global step 8225: 'val_auc' reached 0.87532 (best 0.87532), saving model to '/workspaces/QKAN-ML4SCI/Task-II/logs/gat_baseline/20250304-023545/checkpoints/epoch=34-val_auc=0.8753.ckpt' as top 3
+Epoch 35: 100%|████████████████████████████████████████████████████| 235/235 [01:32<00:00,  2.54it/s, v_num=3545, val_loss=0.455, val_auc=0.874]Epoch 35, global step 8460: 'val_auc' was not in top 3                                                                                          
+Epoch 36: 100%|████████████████████████████████████████████████████| 235/235 [01:32<00:00,  2.55it/s, v_num=3545, val_loss=0.451, val_auc=0.874]Epoch 36, global step 8695: 'val_auc' reached 0.87406 (best 0.87532), saving model to '/workspaces/QKAN-ML4SCI/Task-II/logs/gat_baseline/20250304-023545/checkpoints/epoch=36-val_auc=0.8741.ckpt' as top 3
+Epoch 37: 100%|████████████████████████████████████████████████████| 235/235 [01:31<00:00,  2.56it/s, v_num=3545, val_loss=0.468, val_auc=0.869]Epoch 37, global step 8930: 'val_auc' was not in top 3                                                                                          
+Epoch 38: 100%|████████████████████████████████████████████████████| 235/235 [08:43<00:00,  0.45it/s, v_num=3545, val_loss=0.448, val_auc=0.876]Metric val_auc improved by 0.000 >= min_delta = 0.0. New best score: 0.876                                                                      
+Epoch 38, global step 9165: 'val_auc' reached 0.87575 (best 0.87575), saving model to '/workspaces/QKAN-ML4SCI/Task-II/logs/gat_baseline/20250304-023545/checkpoints/epoch=38-val_auc=0.8758.ckpt' as top 3
+Epoch 39: 100%|████████████████████████████████████████████████████| 235/235 [01:32<00:00,  2.54it/s, v_num=3545, val_loss=0.465, val_auc=0.873]Epoch 39, global step 9400: 'val_auc' was not in top 3                                                                                          
+Epoch 40: 100%|████████████████████████████████████████████████████| 235/235 [01:33<00:00,  2.52it/s, v_num=3545, val_loss=0.447, val_auc=0.873]Epoch 40, global step 9635: 'val_auc' was not in top 3                                                                                          
+Epoch 41: 100%|████████████████████████████████████████████████████| 235/235 [01:32<00:00,  2.54it/s, v_num=3545, val_loss=0.448, val_auc=0.874]Epoch 41, global step 9870: 'val_auc' was not in top 3                                                                                          
+Epoch 42: 100%|████████████████████████████████████████████████████| 235/235 [01:31<00:00,  2.56it/s, v_num=3545, val_loss=0.447, val_auc=0.875]Epoch 42, global step 10105: 'val_auc' reached 0.87538 (best 0.87575), saving model to '/workspaces/QKAN-ML4SCI/Task-II/logs/gat_baseline/20250304-023545/checkpoints/epoch=42-val_auc=0.8754.ckpt' as top 3
+Epoch 43: 100%|████████████████████████████████████████████████████| 235/235 [01:32<00:00,  2.55it/s, v_num=3545, val_loss=0.450, val_auc=0.873]Epoch 43, global step 10340: 'val_auc' was not in top 3                                                                                         
+Epoch 44: 100%|████████████████████████████████████████████████████| 235/235 [01:31<00:00,  2.56it/s, v_num=3545, val_loss=0.473, val_auc=0.873]Epoch 44, global step 10575: 'val_auc' was not in top 3                                                                                         
+Epoch 45: 100%|████████████████████████████████████████████████████| 235/235 [01:31<00:00,  2.56it/s, v_num=3545, val_loss=0.469, val_auc=0.872]Epoch 45, global step 10810: 'val_auc' was not in top 3                                                                                         
+Epoch 46: 100%|████████████████████████████████████████████████████| 235/235 [01:32<00:00,  2.55it/s, v_num=3545, val_loss=0.449, val_auc=0.876]Epoch 46, global step 11045: 'val_auc' reached 0.87557 (best 0.87575), saving model to '/workspaces/QKAN-ML4SCI/Task-II/logs/gat_baseline/20250304-023545/checkpoints/epoch=46-val_auc=0.8756.ckpt' as top 3
+Epoch 47: 100%|████████████████████████████████████████████████████| 235/235 [01:32<00:00,  2.54it/s, v_num=3545, val_loss=0.449, val_auc=0.875]Epoch 47, global step 11280: 'val_auc' was not in top 3                                                                                         
+Epoch 48: 100%|████████████████████████████████████████████████████| 235/235 [01:32<00:00,  2.54it/s, v_num=3545, val_loss=0.450, val_auc=0.871]Monitored metric val_auc did not improve in the last 10 records. Best score: 0.876. Signaling Trainer to stop.                                  
+Epoch 48, global step 11515: 'val_auc' was not in top 3
+Epoch 48: 100%|████████████████████████████████████████████████████| 235/235 [01:32<00:00,  2.54it/s, v_num=3545, val_loss=0.450, val_auc=0.871]
+Loading best model from /workspaces/QKAN-ML4SCI/Task-II/logs/gat_baseline/20250304-023545/checkpoints/epoch=38-val_auc=0.8758.ckpt
+Testing DataLoader 0: 100%|█████████████████████████████████████████████████████████████████████████████████████| 79/79 [00:20<00:00,  3.93it/s]
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+      test_accuracy         0.8041999936103821
+        test_auc            0.8792558908462524
+         test_f1            0.8049218058586121
+     test_precision         0.8019654750823975
+       test_recall          0.8079000115394592
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+Training completed!
+Best validation AUC: N/A
+Test AUC: 0.8792558908462524
+wandb: 
+wandb: 🚀 View run gat_baseline at: https://wandb.ai/sololicht/lightning_logs/runs/mrxfrm1c
