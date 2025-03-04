@@ -167,7 +167,7 @@ default_configs = {
             hidden_channels=64, 
             num_layers=3, 
             dropout=0.2,
-            gat_params={"heads": 4, "concat": True}
+            gat_params={"heads": 1, "concat": True}
         ),
         training_config=TrainingConfig(
             learning_rate=0.005,
