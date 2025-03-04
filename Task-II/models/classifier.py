@@ -3,7 +3,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import pytorch_lightning as pl
 from torch_geometric.typing import Adj
-from torch_geometric.nn import global_mean_pool, global_max_pool, global_add_pool, GlobalAttention
+from torch_geometric.nn import global_mean_pool, global_max_pool, global_add_pool
 from torchmetrics import AUROC, Accuracy, Precision, Recall, F1Score
 from .gnn import GNN
 
