@@ -32,4 +32,6 @@ GAT's attention mechanism provided better feature learning, evidenced by its hig
 - **GAT** required slightly longer training times (~1.5 min/epoch vs. ~1.3 min/epoch for GCN), with one outlier epoch (38) taking 8 minutes due to attention computations.  
 - Both models used early stopping (10 epochs without improvement). GAT trained longer (48 epochs vs. 23 for GCN), suggesting its attention mechanism allowed for extended learning without overfitting.  
 - **GCN** converged faster initially but stagnated, likely due to its fixed neighborhood aggregation, which lacks adaptive feature weighting.    
-- **GAT's advantage** stemmed from its attention heads, which dynamically weighted neighboring nodes, emphasizing high-energy particles critical for classification. **GCN**, with uniform aggregation, struggled to prioritize such features.    
+- **GAT's advantage** stemmed from its attention heads, which dynamically weighted neighboring nodes, emphasizing high-energy particles critical for classification. **GCN**, with uniform aggregation, struggled to prioritize such features.
+
+[🔗 View Report on Weights & Biases](https://wandb.ai/sololicht/lightning_logs/reports/Graph-Neural-Network-for-Quark-Gluon-Jet-Classification--VmlldzoxMjA4ODk2OA)
